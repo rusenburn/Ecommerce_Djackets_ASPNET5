@@ -1,0 +1,65 @@
+@model Product
+
+@{
+
+}
+
+<div class="jumbotron">
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <div class="text-center mb-2">
+            <img src=@($"/MediaFiles/{Model.Image}") class="rounded img-fluid" alt="...">
+        </div>
+    }
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Id)</td>
+            <td>@Html.DisplayFor(model=>Model.Id)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Name)</td>
+            <td>@Html.DisplayFor(model=>Model.Name)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Slug)</td>
+            <td>@Html.DisplayFor(model=>Model.Slug)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Price)</td>
+            <td>$@Html.DisplayFor(model=>Model.Price)</td>
+        </tr>
+
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Description)</td>
+            <td>@Html.DisplayFor(model=>Model.Description)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.DateAdded)</td>
+            <td>@Html.DisplayFor(model=>Model.DateAdded)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Image)</td>
+            <td>@Html.DisplayFor(model=>Model.Image)</td>
+        </tr>
+
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>Model.Thumbnail)</td>
+            <td>@Html.DisplayFor(model=>Model.Thumbnail)</td>
+        </tr>
+        <tr>
+            <td>Actions</td>
+            <td>
+                <a asp-action="Upsert" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>

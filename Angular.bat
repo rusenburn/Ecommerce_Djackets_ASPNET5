@@ -1,0 +1,1 @@
+npm --prefix ./EcommerceAngular run start

@@ -1,0 +1,122 @@
+@model Order
+
+@{
+
+}
+
+<div class="jumbotron">
+    <h2 class="title text-center">Order #@Model.Id</h2>
+    <div class="row">
+
+        <div class="col col-12 col-md-6 offset-md-3">
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.FirstName)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.FirstName)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.LastName)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.LastName)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.Email)
+                </div>
+                <div class="col col-6">
+                    @Model.Email
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.Phone)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.Phone)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.StripeToken)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.StripeToken)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.ZipCode)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.ZipCode)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.Place)
+                </div>
+                <div class="col col-6">
+                    @Html.DisplayFor(m=>m.Place)
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    Actions
+                </div>
+                <div class="col col-6">
+                    <a asp-action="Index" asp-route-userId="@Model.UserId" class="btn btn-primary">User Orders history</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-12">
+
+            <table class="table mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Image</th>                       
+                        <th>Product</th>
+                        <th>Single Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderItem in Model.OrderItems)
+                    {
+                        @* onclick="window.location='@Url.Action("Details","Products",new {id=orderItem.ProductId})'" *@
+                        <tr>
+                            <td style="width: 100px;">
+                                <a 
+                                asp-action="Details"
+                                asp-controller="Products"
+                                asp-route-id="@orderItem.ProductId">
+                                    <img src=@($"/MediaFiles/{orderItem.Product.Thumbnail}") class="rounded img-fluid">
+                                </a>
+                            </td>
+                            <td class="align-middle">@orderItem.Product.Name</td>
+                            <td class="align-middle">@string.Format("{0:C2}",@orderItem.Product.Price)</td>
+                            <td class="align-middle">@orderItem.Quantity</td>
+                            <td class="align-middle">@string.Format("{0:C2}",orderItem.Price)</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="font-weight-bold">
+                        <td colspan="4" class="align-middle">Paid Amount</td>
+                        <td class="align-middle">@string.Format("{0:C2}",Model.PaidAmount)</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <small>* Item Total price may not have he same value as the sum of products because products price change overtime</small>
+        </div>
+    </div>
+</div>

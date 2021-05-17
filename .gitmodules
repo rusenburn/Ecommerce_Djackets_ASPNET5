@@ -1,0 +1,3 @@
+[submodule "EcommerceAngular"]
+	path = EcommerceAngular
+	url = ./EcommerceAngular/

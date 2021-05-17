@@ -1,0 +1,67 @@
+@model OrderIndexViewModel
+
+@{
+
+}
+
+<div class="container">
+
+
+    <h2 class="text-center">Orders list</h2>
+    <form method="get" class="form-inline mt-4" autocomplete="off">
+        <div class="input-group">
+            <input type="text" name="search" placeholder="What are you looking for?" autoselect class="form-control" />
+            <div class="input-group-append">
+                <button type="sumbit" class="btn btn-success form-control">
+                    <span class="icon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="input-group-append">
+                <a asp-action="index" class="btn btn-outline-danger form-control">
+                    <span class="icon">
+                        <i class="fas fa-ban"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(m=>m.Orders)</th>
+                <th>@Html.DisplayNameForInnerType((Order x)=>x.FirstName)</th>
+                @* <th>@Html.DisplayNameFor(m=>m.FirstName)</th> *@
+                <th>@Html.DisplayNameForInnerType((Order x)=>x.LastName)</th>
+                <th>@Html.DisplayNameForInnerType((Order x)=>x.Phone)</th>
+                <th>@Html.DisplayNameForInnerType((Order x)=>x.PaidAmount)</th>
+                @* <th>@Html.DisplayNameFor(m=>m.LastName)</th>
+                    <th>@Html.DisplayNameFor(m=>m.Phone)</th>
+                    <th>@Html.DisplayNameFor(m=>m.PaidAmount)</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@order.Id">@order.Id</a>
+                    </td>
+                    <td><a asp-action="Index" asp-route-userId="@order.UserId">@order.FirstName</a> </td>
+                    <td>@order.LastName</td>
+                    <td>@order.Phone</td>
+                    <td>$@order.PaidAmount</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <a asp-action="Index" asp-route-page="@Model.FilterParams.PreviousPage"
+        asp-route-pageSize="@Model.FilterParams.PageSize" asp-route-search="@Model.FilterParams.Search"
+        asp-route-userId="@Model.UserId" class="btn btn-default">Previous Page</a>
+
+    <a asp-action="Index" asp-route-page="@Model.FilterParams.NextPage"
+        asp-route-pageSize="@Model.FilterParams.PageSize" asp-route-search="@Model.FilterParams.Search"
+        asp-route-userId="@Model.UserId" class="btn btn-default">Next Page</a>
+</div>

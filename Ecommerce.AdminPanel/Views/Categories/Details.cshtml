@@ -1,0 +1,71 @@
+@model Category
+@{
+
+}
+<div class="jumbotron">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Id)</td>
+            <td>@Html.DisplayFor(model=>model.Id)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Name)</td>
+            <td>@Html.DisplayFor(model=>model.Name)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Slug)</td>
+            <td>@Html.DisplayFor(model=>model.Slug)</td>
+        </tr>
+        <tr>
+            <td>Actions</td>
+            <td>
+                <a asp-action="Upsert" asp-route-id="@Model.Id" class="btn btn-primary">
+                    Edit 
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th colspan="5">
+                    <h2 class="text-center">Products List</h2>
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                        <tr>
+                            
+                            <td style="width:100px;">
+                                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.Id">
+                                    <img src=@($"/MediaFiles/{product.Thumbnail}") class="rounded img-fluid">
+                                </a>
+                            </td>
+                            <td><a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">@product.Name</a> </td>
+                            <td>@product.Slug</td>
+                            <td>@product.Price</td>
+                            <td>
+                                <a asp-controller="Products" asp-action="Upsert" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+            }
+        </tbody>
+    </table>
+</div>
