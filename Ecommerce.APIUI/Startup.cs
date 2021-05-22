@@ -47,7 +47,9 @@ namespace Ecommerce.APIUI
                 options.AddPolicy(name: MyAllowedSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins(
+                            "http://localhost:4200",
+                            "http://localhost:8080")
                         // builder.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
@@ -78,6 +80,7 @@ namespace Ecommerce.APIUI
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IShippingInfoRepository, ShippingInfoRepository>();
 
             services.AddScoped<IOrderHelperService , OrderHelperService>();
             services.AddScoped<IPaymentService,StripePaymentService>();

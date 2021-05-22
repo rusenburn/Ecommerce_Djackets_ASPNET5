@@ -113,7 +113,7 @@ namespace Ecommerce.UnitTests.SharedTests.RepositoriesTests
                 using (OrderRepository repo = new OrderRepositoryFactory().InstantiateNew(context))
                 {
                     // Act
-                    var orders = await repo.GetOrdersWithOrderItemsAsync();
+                    var orders = await repo.GetOrdersWithOrderItemsAndShippingInfoAsync();
 
                     // Assert
                     Assert.NotEmpty(orders);
@@ -131,7 +131,7 @@ namespace Ecommerce.UnitTests.SharedTests.RepositoriesTests
                 using (OrderRepository repo = new OrderRepositoryFactory().InstantiateNew(context))
                 {
                     // Act
-                    var orders = await repo.GetOrdersWithOrderItemsAsync();
+                    var orders = await repo.GetOrdersWithOrderItemsAndShippingInfoAsync();
                     var orderItems = orders.First().OrderItems;
                     var orderItem = orderItems.First();
                     var product = orderItem.Product;
@@ -158,7 +158,7 @@ namespace Ecommerce.UnitTests.SharedTests.RepositoriesTests
                 using (OrderRepository repo = new OrderRepositoryFactory().InstantiateNew(context))
                 {
                     // Act
-                    var orders = await repo.GetOrdersWithOrderItemsAsync(pageIndex, pageSize, query, null);
+                    var orders = await repo.GetOrdersWithOrderItemsAndShippingInfoAsync(pageIndex, pageSize, query, null);
 
                     // Assert
                     Assert.NotNull(orders);
@@ -180,7 +180,7 @@ namespace Ecommerce.UnitTests.SharedTests.RepositoriesTests
                 {
                     // Act
                     Func<Task<IEnumerable<Order>>> func = async () =>
-                        await repo.GetOrdersWithOrderItemsAsync(pageIndex, pageSize, query, null);
+                        await repo.GetOrdersWithOrderItemsAndShippingInfoAsync(pageIndex, pageSize, query, null);
 
                     // Assert
                     await Assert.ThrowsAsync<ArgumentException>(func);

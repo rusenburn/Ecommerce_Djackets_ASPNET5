@@ -14,19 +14,22 @@ namespace Ecommerce.Shared.Repositories
         public ICategoryRepository Categories { get; private set; }
         public IOrderRepository Orders { get; private set; }
         public IOrderItemRepository OrderItems { get; private set; }
+        public IShippingInfoRepository ShippingInfoSet { get; private set; }
 
         public UnitOfWork(
             ApplicationDbContext context,
             IProductRepository products,
             ICategoryRepository categories,
             IOrderRepository orders,
-            IOrderItemRepository orderItems)
+            IOrderItemRepository orderItems,
+            IShippingInfoRepository shippingInfoSet)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             Products = products ?? throw new ArgumentNullException(nameof(products));
             Categories = categories ?? throw new ArgumentNullException(nameof(categories));
             Orders = orders ?? throw new ArgumentNullException(nameof(orders));
             OrderItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
+            ShippingInfoSet = shippingInfoSet ?? throw new ArgumentNullException(nameof(shippingInfoSet));
         }
 
         public async Task<int> SaveChangesAsync()

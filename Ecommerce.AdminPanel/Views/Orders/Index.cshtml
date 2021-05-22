@@ -1,5 +1,5 @@
 @model OrderIndexViewModel
-
+@using Ecommerce.Shared.Enums;
 @{
 
 }
@@ -8,9 +8,17 @@
 
 
     <h2 class="text-center">Orders list</h2>
-    <form method="get" class="form-inline mt-4" autocomplete="off">
+    <form method="get" asp-route-filterParams="@Model.FilterParams" class="form-inline mt-4" autocomplete="off">
         <div class="input-group">
             <input type="text" name="search" placeholder="What are you looking for?" autoselect class="form-control" />
+            <div class="input-group-append">
+                <select asp-for="@Model.FilterParams.Shipping" name="Shipping" id="Shipping" type="select" class="form-control">
+                    <option value="@((int)ShippingInfoFilter.All)">---</option>
+                    <option value="@((int)ShippingInfoFilter.NotShipped)">@ShippingInfoFilter.NotShipped</option>
+                    <option value="@((int)ShippingInfoFilter.ShippedNotArrived)">@ShippingInfoFilter.ShippedNotArrived</option>
+                    <option value="@((int)ShippingInfoFilter.Arrived)">@ShippingInfoFilter.Arrived</option>
+                </select>
+            </div>
             <div class="input-group-append">
                 <button type="sumbit" class="btn btn-success form-control">
                     <span class="icon">
@@ -19,14 +27,21 @@
                 </button>
             </div>
             <div class="input-group-append">
-                <a asp-action="index" class="btn btn-outline-danger form-control">
+                <a asp-action="Index" class="btn btn-outline-danger form-control">
                     <span class="icon">
                         <i class="fas fa-ban"></i>
                     </span>
                 </a>
             </div>
+            
+            
         </div>
+        
     </form>
+    @* <form method="GET" asp-route-filterParams="@Model.FilterParams">
+        
+        <button type="submit">Submit</button>
+    </form> *@
     <table class="table table-bordered table-striped mt-4">
         <thead class="thead-dark">
             <tr>
@@ -36,6 +51,9 @@
                 <th>@Html.DisplayNameForInnerType((Order x)=>x.LastName)</th>
                 <th>@Html.DisplayNameForInnerType((Order x)=>x.Phone)</th>
                 <th>@Html.DisplayNameForInnerType((Order x)=>x.PaidAmount)</th>
+                <th>@Html.DisplayNameForInnerType((ShippingInfo x)=>x.ShippedDate)</th>
+                <th>@Html.DisplayNameForInnerType((ShippingInfo x)=>x.ArrivalDate)</th>
+                <th>@Html.DisplayNameForInnerType((Order x)=>x.ShippingInfo)</th>
                 @* <th>@Html.DisplayNameFor(m=>m.LastName)</th>
                     <th>@Html.DisplayNameFor(m=>m.Phone)</th>
                     <th>@Html.DisplayNameFor(m=>m.PaidAmount)</th> *@
@@ -52,6 +70,9 @@
                     <td>@order.LastName</td>
                     <td>@order.Phone</td>
                     <td>$@order.PaidAmount</td>
+                    <td>@(order.ShippingInfo?.ShippedDate)</td>
+                    <td>@(order.ShippingInfo?.ArrivalDate)</td>
+                    <td>@(order.ShippingInfo?.Id)</td>
                 </tr>
 
             }
@@ -59,9 +80,9 @@
     </table>
     <a asp-action="Index" asp-route-page="@Model.FilterParams.PreviousPage"
         asp-route-pageSize="@Model.FilterParams.PageSize" asp-route-search="@Model.FilterParams.Search"
-        asp-route-userId="@Model.UserId" class="btn btn-default">Previous Page</a>
+        asp-route-userId="@Model.FilterParams.UserId" asp-route-shipping="@Model.FilterParams.Shipping" class="btn btn-default">Previous Page</a>
 
     <a asp-action="Index" asp-route-page="@Model.FilterParams.NextPage"
         asp-route-pageSize="@Model.FilterParams.PageSize" asp-route-search="@Model.FilterParams.Search"
-        asp-route-userId="@Model.UserId" class="btn btn-default">Next Page</a>
+        asp-route-userId="@Model.FilterParams.UserId" asp-route-shipping="@Model.FilterParams.Shipping" class="btn btn-default">Next Page</a>
 </div>

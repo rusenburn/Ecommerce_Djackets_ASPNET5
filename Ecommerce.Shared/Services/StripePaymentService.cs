@@ -24,7 +24,6 @@ namespace Ecommerce.Shared.Services
                 // TODO: let the order refer to the payment type and id 
                 // TODO: fill whatever you can from options
                 // TODO: Add tthe ability to change currency 
-                // TODO: Use the returned url
                 long paidAmountInCents = (long)order.PaidAmount * 100L;
                 var options = new Stripe.ChargeCreateOptions()
                 {
@@ -38,6 +37,7 @@ namespace Ecommerce.Shared.Services
                 
                 var service = new Stripe.ChargeService();
                 var charge  = await service.CreateAsync(options);
+                order.RecipeURL = charge.ReceiptUrl;
                 _logger.LogInformation($"a Charge with an id of {charge.Id} was created for {charge.Amount/100:C2} {charge.Currency} on {charge.ReceiptUrl}");
                 return order;
         }

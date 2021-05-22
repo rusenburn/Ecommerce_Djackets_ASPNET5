@@ -9,6 +9,7 @@ namespace Ecommerce.Shared.Repositories.Interfaces
         ICategoryRepository Categories {get;}
         IOrderRepository Orders {get;}
         IOrderItemRepository OrderItems {get;}
+        IShippingInfoRepository ShippingInfoSet {get;}
         Task<int> SaveChangesAsync();
     }
 }

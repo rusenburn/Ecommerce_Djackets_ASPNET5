@@ -67,10 +67,45 @@
             </div>
             <div class="row mb-3">
                 <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.ShippingInfo.ShippedDate)
+                </div>
+                <div class="col col-6">
+                    @if (Model.ShippingInfo is null || Model.ShippingInfo.ShippedDate is null)
+                    {
+                        <form asp-action="MarkAsShipped" asp-route-orderId="@Model.Id" method="post">
+                            <button type="submit" class="btn btn-success">Mark as Shipped</button>
+                        </form>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.ShippingInfo.ShippedDate);
+                    }
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
+                    @Html.DisplayNameFor(m=>m.ShippingInfo.ArrivalDate)
+                </div>
+                <div class="col col-6">
+                    @if (Model.ShippingInfo is not null && Model.ShippingInfo.ShippedDate is not null && Model.ShippingInfo.ArrivalDate is null)
+                    {
+                        <form asp-action="MarkAsArrived" asp-route-orderId="@Model.Id" method="post">
+                            <button type="submit" class="btn btn-success">Mark as Arrived</button>
+                        </form>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.ShippingInfo.ArrivalDate);
+                    }
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-6">
                     Actions
                 </div>
                 <div class="col col-6">
-                    <a asp-action="Index" asp-route-userId="@Model.UserId" class="btn btn-primary">User Orders history</a>
+                    <a asp-action="Index" asp-route-userId="@Model.UserId" class="btn btn-primary">User Orders
+                        history</a>
                 </div>
             </div>
         </div>
@@ -81,7 +116,7 @@
             <table class="table mt-4">
                 <thead class="table-dark">
                     <tr>
-                        <th>Image</th>                       
+                        <th>Image</th>
                         <th>Product</th>
                         <th>Single Price</th>
                         <th>Quantity</th>
@@ -94,10 +129,7 @@
                         @* onclick="window.location='@Url.Action("Details","Products",new {id=orderItem.ProductId})'" *@
                         <tr>
                             <td style="width: 100px;">
-                                <a 
-                                asp-action="Details"
-                                asp-controller="Products"
-                                asp-route-id="@orderItem.ProductId">
+                                <a asp-action="Details" asp-controller="Products" asp-route-id="@orderItem.ProductId">
                                     <img src=@($"/MediaFiles/{orderItem.Product.Thumbnail}") class="rounded img-fluid">
                                 </a>
                             </td>
@@ -116,7 +148,8 @@
                 </tfoot>
             </table>
 
-            <small>* Item Total price may not have he same value as the sum of products because products price change overtime</small>
+            <small>* Item Total price may not have he same value as the sum of products because products price change
+                overtime</small>
         </div>
     </div>
 </div>

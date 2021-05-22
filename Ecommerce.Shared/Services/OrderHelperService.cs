@@ -34,7 +34,7 @@ namespace Ecommerce.Shared.Services
             if (order is null) return null;
 
             ICollection<OrderItem> orderItems = await SubmitOrderToDb(order);
-            await SubmitOrderItemsToDb(orderItems,order.Id);
+            await SubmitOrderItemsToDb(orderItems, order.Id);
             return order;
         }
 
@@ -70,9 +70,17 @@ namespace Ecommerce.Shared.Services
             order.OrderItems = null;
             order = await _repo.Orders.CreateOneAsync(order);
             await _repo.SaveChangesAsync();
+            // await CreateAndSaveShippingInfo(order);
             return orderItems;
         }
-        private async Task SubmitOrderItemsToDb(ICollection<OrderItem> orderItems,int orderId)
+        private async Task CreateAndSaveShippingInfo(Order order)
+        {
+            ShippingInfo info = new ShippingInfo();
+            info.OrderId = order.Id;
+            await _repo.ShippingInfoSet.CreateOneAsync(info);
+            await _repo.SaveChangesAsync();
+        }
+        private async Task SubmitOrderItemsToDb(ICollection<OrderItem> orderItems, int orderId)
         {
             foreach (var item in orderItems)
             {

@@ -20,6 +20,7 @@ namespace Ecommerce.UnitTests.SharedTests.ServicesTests
         protected Mock<IProductRepository> ProductsRepoMock { get; }
         protected Mock<IOrderRepository> OrderRepoMock { get; }
         protected Mock<IOrderItemRepository> OrderItemRepoMock { get; }
+        protected Mock<IShippingInfoRepository> ShippingInfoRepoMock { get; }
         public OrderHelperServiceTest()
         {
             UnitOfWorkMock = new Mock<IUnitOfWork>();
@@ -28,6 +29,7 @@ namespace Ecommerce.UnitTests.SharedTests.ServicesTests
             ProductsRepoMock = new Mock<IProductRepository>();
             OrderRepoMock = new Mock<IOrderRepository>();
             OrderItemRepoMock = new Mock<IOrderItemRepository>();
+            ShippingInfoRepoMock = new Mock<IShippingInfoRepository>();
             UnitOfWorkMock
                 .Setup(x => x.Products)
                 .Returns(ProductsRepoMock.Object);
@@ -37,6 +39,8 @@ namespace Ecommerce.UnitTests.SharedTests.ServicesTests
             UnitOfWorkMock
                 .Setup(x => x.OrderItems)
                 .Returns(OrderItemRepoMock.Object);
+            UnitOfWorkMock.Setup(x=>x.ShippingInfoSet)
+                .Returns(ShippingInfoRepoMock.Object);
         }
 
         public class FixOrderPrice : OrderHelperServiceTest
@@ -111,8 +115,10 @@ namespace Ecommerce.UnitTests.SharedTests.ServicesTests
             [Fact]
             public async Task Should_return_Order()
             {
+                // Arrange
                 var orderItems = order.OrderItems;
                 int newOrderId = 5;
+                ShippingInfo expectedShippingInfo = new ShippingInfo();
                 ProductsRepoMock
                     .Setup(x => x.FindAsync(It.IsAny<Expression<Func<Product, bool>>>()))
                     .ReturnsAsync(new Product[] { p1WithCorrectPrice, p2WithCorrectPrice });

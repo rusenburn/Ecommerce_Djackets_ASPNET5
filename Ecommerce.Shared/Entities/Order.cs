@@ -49,7 +49,10 @@ namespace Ecommerce.Shared.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<OrderItem> OrderItems { get; set; }
-
+        [MaxLength(300)]
+        public string RecipeURL { get; set; }
+        public ShippingInfo ShippingInfo { get; set; }
+        
         public override string ToString()
         {
             return FirstName + " " + LastName;

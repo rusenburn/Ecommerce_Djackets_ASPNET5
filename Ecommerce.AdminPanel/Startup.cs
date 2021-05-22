@@ -45,6 +45,7 @@ namespace Ecommerce.AdminPanel
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IShippingInfoRepository, ShippingInfoRepository>();
             
             services.AddScoped<IImageService, ImageService>();
 

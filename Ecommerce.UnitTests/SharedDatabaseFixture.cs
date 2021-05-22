@@ -43,7 +43,8 @@ namespace Ecommerce.UnitTests
             CategoryRepository categories = new CategoryRepository(context);
             OrderRepository orders = new OrderRepository(context);
             OrderItemRepository orderItems = new OrderItemRepository(context);
-            return new UnitOfWork(context,products,categories,orders,orderItems);
+            ShippingInfoRepository shippingInfoSet = new ShippingInfoRepository(context);
+            return new UnitOfWork(context,products,categories,orders,orderItems,shippingInfoSet);
         }
         private void Seed()
         {
@@ -162,6 +163,16 @@ namespace Ecommerce.UnitTests
                         orderItem3.Order = order2;
 
                         context.OrderItems.AddRange(orderItem1,orderItem2,orderItem3);
+                        context.SaveChanges();
+
+
+                        var shippingInfo = new ShippingInfo()
+                        {
+                            ShippedDate = DateTime.UtcNow
+                        };
+                        shippingInfo.OrderId = order.Id;
+
+                        context.ShippingInfoSet.Add(shippingInfo);
                         context.SaveChanges();
 
                     }

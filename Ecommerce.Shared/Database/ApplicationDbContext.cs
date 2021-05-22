@@ -13,6 +13,7 @@ namespace Ecommerce.Shared.Database
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShippingInfo> ShippingInfoSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,6 +46,11 @@ namespace Ecommerce.Shared.Database
             builder.Entity<OrderItem>()
             .Property(oi=>oi.Price)
             .HasPrecision(8,2);
+
+            builder.Entity<Order>()
+            .HasOne(x=>x.ShippingInfo)
+            .WithOne(x=>x.Order)
+            .HasForeignKey<ShippingInfo>(x=>x.OrderId);
         }
     }
 }
